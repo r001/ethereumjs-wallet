@@ -100,9 +100,9 @@ Wallet.prototype.getPublicKeyString = function () {
 Wallet.prototype.getAddress = function () {
   if(this.pubkey.toString('hex').length !== 66) {
     return ethUtil.publicToAddress(this.pubKey)
-	} else {
-		Buffer.from(this.pubkey.toString('hex').slice(26))
-	}
+  } else {
+    return Buffer.from(this.pubkey.toString('hex').slice(26))
+  }
 }
 
 Wallet.prototype.getAddressString = function () {
