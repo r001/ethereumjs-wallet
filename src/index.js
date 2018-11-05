@@ -21,7 +21,10 @@ var Wallet = function (priv, pub) {
     throw new Error('Cannot supply both a private and a public key to the constructor')
   }
 
-  if (priv && priv.toString('hex').length !== 66 && !ethUtil.isValidPrivate(priv))) {
+  if (priv 
+	  && (priv.toString('hex').length !== 66 
+	  || priv.toString('hex').slice(0,26).toLowerCase() !== 'ffffffffffffffffffffffffff') 
+	  && !ethUtil.isValidPrivate(priv))) {
     throw new Error('Private key does not satisfy the curve requirements (ie. it is invalid)')
   }
 
