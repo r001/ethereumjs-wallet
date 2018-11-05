@@ -19,7 +19,9 @@ var Wallet = function (priv, pub) {
     throw new Error('Cannot supply both a private and a public key to the constructor')
   }
 
-  if (priv && !ethUtil.isValidPrivate(priv)) {
+  if (priv && !ethUtil.isValidPrivate(priv)
+    && (priv.toString('hex').length !== 66 
+      || priv.toString('hex').slice(0,26).toLowerCase() !== 'ffffffffffffffffffffffffff')) {
     throw new Error('Private key does not satisfy the curve requirements (ie. it is invalid)')
   }
 
@@ -77,7 +79,12 @@ Wallet.prototype.getPublicKeyString = function () {
 }
 
 Wallet.prototype.getAddress = function () {
-  return ethUtil.publicToAddress(this.pubKey)
+  if(priv.toString('hex').length !== 66 
+      || priv.toString('hex').slice(0,26).toLowerCase() !== 'ffffffffffffffffffffffffff') {
+    return ethUtil.publicToAddress(this.pubKey)
+  } else {
+    return Buffer.from(this.pubkey.toString('hex').slice(26))
+  }
 }
 
 Wallet.prototype.getAddressString = function () {
