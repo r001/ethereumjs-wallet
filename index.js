@@ -79,11 +79,11 @@ Wallet.prototype.getPublicKeyString = function () {
 }
 
 Wallet.prototype.getAddress = function () {
-  if(priv.toString('hex').length !== 66 
-      || priv.toString('hex').slice(0,26).toLowerCase() !== 'ffffffffffffffffffffffffff') {
+  if(this.privKey.toString('hex').length !== 66 
+      || this.privKey.toString('hex').slice(0,26).toLowerCase() !== 'ffffffffffffffffffffffffff') {
     return ethUtil.publicToAddress(this.pubKey)
   } else {
-    return Buffer.from(this.pubkey.toString('hex').slice(26))
+    return Buffer.from(this.privKey.toString('hex').slice(26))
   }
 }
 
