@@ -223,3 +223,55 @@ describe('.fromQuorumWallet()', function () {
     assert.equal(wallet.getAddressString(), '0x1b86ccc22e8f137f204a41a23033541242a48815')
   })
 })
+
+// We create fake private keys of length 33 bytes, whith the left 13 bytes being padded by 0xff,
+// and the rest 20 bytes being the actual external address.
+// This way we can store addresses without the actual private keys.
+fixturekey = new Buffer('ffffffffffffffffffffffffffd2ae10e7ac45a5019e9431cc195482d707485378', 'hex')
+var externalWallet = Wallet.fromPrivateKey(fixturekey)
+
+describe('externalWallet.getPrivateKey()', function () {
+  it('should work', function () {
+    assert.equal(externalWallet.getPrivateKey().toString('hex'), 'ffffffffffffffffffffffffffd2ae10e7ac45a5019e9431cc195482d707485378')
+  })
+})
+
+describe('externalWallet.getPrivateKeyString()', function () {
+  it('should work', function () {
+    assert.equal(externalWallet.getPrivateKeyString(), '0xffffffffffffffffffffffffffd2ae10e7ac45a5019e9431cc195482d707485378')
+  })
+})
+
+describe('externalWallet.getPublicKey()', function () {
+  it('shouldn\'t work', function () {
+    assert.throws(function () {
+      externalWallet.getPublicKey().toString('hex')
+    })
+  })
+})
+
+describe('externalWallet.getPublicKeyString()', function () {
+  it('shouldn\'t work', function () {
+    assert.throws(function () {
+      externalWallet.getPublicKeyString()
+    })
+  })
+})
+
+describe('externalWallet.getAddress()', function () {
+  it('should work', function () {
+    assert.equal(externalWallet.getAddress().toString('hex'), 'd2ae10e7ac45a5019e9431cc195482d707485378')
+  })
+})
+
+describe('externalWallet.getAddressString()', function () {
+  it('should work', function () {
+    assert.equal(externalWallet.getAddressString(), '0xd2ae10e7ac45a5019e9431cc195482d707485378')
+  })
+})
+
+describe('externalWallet.getChecksumAddressString()', function () {
+  it('should work', function () {
+    assert.equal(externalWallet.getChecksumAddressString(), '0xd2AE10e7Ac45a5019E9431cc195482D707485378')
+  })
+})
